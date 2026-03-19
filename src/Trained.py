@@ -34,14 +34,16 @@ def load_and_preprocess(filepath):
     df = pd.read_csv('data_cleaned.csv')
     print(f"Loaded  : {df.shape[0]:,} rows x {df.shape[1]} columns")
 
-    df.drop(columns=["salary_package_lpa"], inplace=True)
-    print("Dropped : 'salary_package_lpa' (leakage)")
+    # Drop both leakage columns
+    df.drop(columns=["salary_package_lpa", "salary_available"], errors="ignore", inplace=True)
+    print("Dropped : 'salary_package_lpa' and 'salary_available'")
 
-    n_flip       = int(0.25 * len(df))
-    flip_indices = np.random.choice(df.index, size=n_flip, replace=False)
-    df.loc[flip_indices, "salary_available"] = 1 - df.loc[flip_indices, "salary_available"]
-    discordance  = (df["salary_available"] != df["placement_status"]).mean() * 100
-    print(f"Noise   : salary_available discordance = {discordance:.1f}%")
+    # Fix any remaining NaN
+    for col in df.columns:
+        if df[col].isnull().any():
+            df[col].fillna(df[col].median(), inplace=True)
+            print(f"Fixed   : NaN in '{col}' filled with median")
+
     print(f"Missing : {df.isnull().sum().sum()} values remaining")
 
     X = df.drop(columns=["placement_status"])
