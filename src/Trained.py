@@ -35,23 +35,31 @@ def load_and_preprocess(filepath):
     print(f"Loaded  : {df.shape[0]:,} rows x {df.shape[1]} columns")
 
     # Drop both leakage columns
-    df.drop(columns=["salary_package_lpa", "salary_available"], errors="ignore", inplace=True)
-    print("Dropped : 'salary_package_lpa' and 'salary_available'")
+    df.drop(columns=["salary_package_lpa"], errors="ignore", inplace=True)
+    print("✓  Dropped 'salary_package_lpa'")
+
+    # Add 30% noise to salary_available
+    n_flip       = int(0.30 * len(df))
+    flip_indices = np.random.choice(df.index, size=n_flip, replace=False)
+    df.loc[flip_indices, "salary_available"] = 1 - df.loc[flip_indices, "salary_available"]
+    print(f"✓  Added 30% noise to 'salary_available'")
 
     # Fix any remaining NaN
     for col in df.columns:
         if df[col].isnull().any():
             df[col].fillna(df[col].median(), inplace=True)
-            print(f"Fixed   : NaN in '{col}' filled with median")
+            print(f"   Fixed NaN in '{col}'")
 
-    print(f"Missing : {df.isnull().sum().sum()} values remaining")
+    print(f"\n✓  Missing values remaining : {df.isnull().sum().sum()}")
 
     X = df.drop(columns=["placement_status"])
     y = df["placement_status"]
+    print(f"\n✓  Features ({X.shape[1]}) : {X.columns.tolist()}")
+    print(f"   Target : placement_status  (0 = Not Placed, 1 = Placed)")
 
     scaler   = StandardScaler()
     X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
-    print(f"Scaled  : {X_scaled.shape[1]} features (StandardScaler applied)\n")
+    print(f"\n✓  Scaled  : {X_scaled.shape[1]} features (StandardScaler applied)\n")
 
     return X_scaled, y, scaler, X
 
