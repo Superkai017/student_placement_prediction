@@ -95,7 +95,7 @@ def train_models(X_train, y_train):
     print("    Done")
 
     print("[2] Training Random Forest ...")
-    rf = RandomForestClassifier(n_estimators=100, max_depth=4,
+    rf = RandomForestClassifier(n_estimators=100, max_depth=8,
                                 min_samples_leaf=20,
                                 random_state=RANDOM_STATE, n_jobs=-1)
     rf.fit(X_train, y_train)
