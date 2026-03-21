@@ -21,10 +21,11 @@ print("✓ Models ready!\n")
 
 my_student = {
     "college_tier"    : 3,
-    "tech_skill"      : 0.52,
-    "soft_skill"      : 0.45,
-    "practical_skill" : 0.40,
-    "cgpa_scaled"     : 0.50,
+    'salary_available': 1,
+    "tech_skill"      : 0.20,
+    "soft_skill"      : 0.30,
+    "practical_skill" : 0.20,
+    "cgpa_scaled"     : 0.20,
     "backlogs_scaled" : 0.0,
     "academic_points" : 0.40,
     "branch_CSE"      : 0,
