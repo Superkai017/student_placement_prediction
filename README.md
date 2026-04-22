@@ -154,7 +154,7 @@ All models were evaluated on a held-out test set. The target accuracy range was 
 |---|---|---|
 | Logistic Regression | 74.70% | ✅ Yes |
 | Random Forest | 74.44% | ✅ Yes |
-| Gradient Boosting | 72.72% | ⚠️ Slightly below |
+| Gradient Boosting | 74.61% | ✅ Yes|
 | **Overall** | **74.00%** | ✅ Yes |
 
 **Key observations:**
