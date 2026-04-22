@@ -22,18 +22,18 @@ print("✓ Models ready!\n")
 my_student = {
     "college_tier"    : 3,
     'salary_available': 1,
-    "tech_skill"      : 0.20,
-    "soft_skill"      : 0.30,
-    "practical_skill" : 0.20,
-    "cgpa_scaled"     : 0.20,
-    "backlogs_scaled" : 0.0,
-    "academic_points" : 0.40,
+    "tech_skill"      : 0.10,
+    "soft_skill"      : 0.10,
+    "practical_skill" : 0.0,
+    "cgpa_scaled"     : 0.10,
+    "backlogs_scaled" : 0.10,
+    "academic_points" : 0.10,
     "branch_CSE"      : 0,
     "branch_Chemical" : 0,
     "branch_ECE"      : 0,
     "branch_EE"       : 0,
-    "branch_IT"       : 1,
-    "branch_ME"       : 0,
+    "branch_IT"       : 0,
+    "branch_ME"       : 1,
 }
 
 
@@ -73,10 +73,9 @@ votes = sum(
 
 print(f"\n📊 {votes}/3 models predict PLACED")
 
-if   votes == 3: print("🎉 All models agree — very likely PLACED!")
-elif votes == 2: print("👍 Majority says PLACED — good chances.")
-elif votes == 1: print("😐 Only 1 model says PLACED — uncertain.")
-else:            print("😟 All models agree — unlikely to be placed.")
+if   votes == 3: print("🎉 based on majority vote — very likely PLACED!")
+elif votes == 2: print("👍 based on majority vote — good chances to be placed but need more assessment.")
+else:            print("😟 based on majority vote — unlikely to be placed.")
 
 
 # =============================================================================
