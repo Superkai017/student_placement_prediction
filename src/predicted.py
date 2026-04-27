@@ -21,7 +21,6 @@ print("✓ Models ready!\n")
 
 my_student = {
     "college_tier"    : 3,
-    'salary_available': 1,
     "tech_skill"      : 0.10,
     "soft_skill"      : 0.10,
     "practical_skill" : 0.0,
@@ -50,13 +49,15 @@ print(student_df.to_string(index=False))
 print("\n🤖 Predictions from each model:")
 print("─" * 45)
 
+THRESHOLD = 0.60
 for name, model in models_dict.items():
-
-    prediction      = model.predict(student_scaled)[0]
     probability     = model.predict_proba(student_scaled)[0]
     prob_not_placed = probability[0] * 100
     prob_placed     = probability[1] * 100
-    result          = "✅ PLACED" if prediction == 1 else "❌ NOT PLACED"
+
+    # ── use threshold instead of default 0.5 ──
+    prediction = 1 if prob_placed / 100 >= THRESHOLD else 0
+    result     = "✅ PLACED" if prediction == 1 else "❌ NOT PLACED"
 
     print(f"\n  Model   : {name}")
     print(f"  Result  : {result}")
@@ -68,7 +69,7 @@ print("\n" + "─" * 45)
 
 votes = sum(
     1 for model in models_dict.values()
-    if model.predict(student_scaled)[0] == 1
+    if model.predict_proba(student_scaled)[0][1] >= THRESHOLD
 )
 
 print(f"\n📊 {votes}/3 models predict PLACED")

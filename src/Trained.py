@@ -35,14 +35,8 @@ def load_and_preprocess(filepath):
     print(f"Loaded  : {df.shape[0]:,} rows x {df.shape[1]} columns")
 
     # Drop both leakage columns
-    df.drop(columns=["salary_package_lpa"], errors="ignore", inplace=True)
-    print("✓  Dropped 'salary_package_lpa'")
-
-    # Add 30% noise to salary_available
-    n_flip       = int(0.30 * len(df))
-    flip_indices = np.random.choice(df.index, size=n_flip, replace=False)
-    df.loc[flip_indices, "salary_available"] = 1 - df.loc[flip_indices, "salary_available"]
-    print(f"✓  Added 30% noise to 'salary_available'")
+    df.drop(columns=["salary_package_lpa", "salary_available"], errors="ignore", inplace=True)
+    print("✓  Dropped 'salary_package_lpa' and 'salary_available'")
 
     # Fix any remaining NaN
     for col in df.columns:
@@ -123,11 +117,11 @@ def evaluate_model(name, model, X_train, y_train, X_test, y_test):
     cv_scores = cross_val_score(model, X_train, y_train,
                                 cv=5, scoring="accuracy", n_jobs=-1)
 
-    status = "IN TARGET RANGE (73-78%)" if 0.73 <= acc <= 0.78 else "OUT OF TARGET RANGE"
+   
 
     print(f"{'─'*55}")
     print(f"  Model          : {name}")
-    print(f"  Test Accuracy  : {acc*100:.2f}%   {status}")
+    print(f"  Test Accuracy  : {acc*100:.2f}%")
     print(f"  ROC-AUC        : {roc_auc:.4f}")
     print(f"  CV Acc (5-fold): {cv_scores.mean()*100:.2f}% ± {cv_scores.std()*100:.2f}%")
     print(f"\n  Classification Report:")
@@ -153,15 +147,15 @@ def evaluate_all_models(models_dict, X_train, y_train, X_test, y_test):
 
 def print_summary(results):
     print("=" * 56)
-    print(f"  {'Model':<22} | Accuracy  | In 73-78%?")
+    print(f"  {'Model':<22} | Accuracy  |")
     print(f"  {'-'*52}")
     for name, acc in results.items():
-        flag = "Yes" if 0.73 <= acc <= 0.78 else "No"
-        print(f"  {name:<22} |  {acc*100:.2f}%   | {flag}")
+
+        print(f"  {name:<22} |  {acc*100:.2f}%   ")
     print("=" * 56)
     best = min(results, key=lambda n: abs(results[n] - 0.755))
     print(f"\nRecommended model : {best}  ({results[best]*100:.2f}%)")
-    print(f"(closest to target midpoint 75.5%)\n")
+
 
 
 # =============================================================================
