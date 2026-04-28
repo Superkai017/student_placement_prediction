@@ -23,9 +23,9 @@ def get_float(prompt, min_val=0.0, max_val=1.0):
             val = float(input(f"  {prompt} ({min_val}–{max_val}): "))
             if min_val <= val <= max_val:
                 return val
-            print(f"    ⚠️  Please enter a value between {min_val} and {max_val}")
+            print(f" Please enter a value between {min_val} and {max_val}")
         except ValueError:
-            print("    ⚠️  Please enter a valid number")
+            print(" Please enter a valid number")
 
 def get_int(prompt, options):
     while True:
@@ -33,9 +33,9 @@ def get_int(prompt, options):
             val = int(input(f"  {prompt} ({'/'.join(map(str, options))}): "))
             if val in options:
                 return val
-            print(f"    ⚠️  Please choose from: {options}")
+            print(f"  Please choose from: {options}")
         except ValueError:
-            print("    ⚠️  Please enter a valid number")
+            print(" Please enter a valid number")
 
 def get_branch():
     branches = ["CSE", "Chemical", "ECE", "EE", "IT", "ME"]
@@ -47,9 +47,9 @@ def get_branch():
             choice = int(input("  Choose branch number (1–6): "))
             if 1 <= choice <= 6:
                 return branches[choice - 1]
-            print("    ⚠️  Please choose between 1 and 6")
+            print(" Please choose between 1 and 6")
         except ValueError:
-            print("    ⚠️  Please enter a valid number")
+            print("  Please enter a valid number")
 
 # ── Collect inputs ────────────────────────────────────────────
 print("\n── College Info ──────────────────────────────")
@@ -184,7 +184,7 @@ votes_placed = sum(
     if m.predict_proba(student_scaled)[0][1] >= THRESHOLD
 )
 
-print(f"\n📊 Final Verdict: {votes_placed} out of 3 models predict PLACED ")
+print(f"\n Final Verdict: {votes_placed} out of 3 models predict PLACED ")
 
 if votes_placed == 3:
     print("All models agree — this student is very likely to get PLACED!")
